@@ -7,6 +7,7 @@ export interface IConfig {
     cors: string;
   };
   scrappers: {
+    launcher: string;
     reports: string;
     vehicle: string;
     cookie: string;

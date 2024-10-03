@@ -11,6 +11,7 @@ const config: IConfig = {
     cors: process.env.CORS_ORIGIN_WHITELIST ?? '*',
   },
   scrappers: {
+    launcher: process.env.PUPPETEER_EXECUTABLE_PATH ?? '',
     reports: process.env.SCRAPPER_PERSON_REPORT_URL ?? '',
     vehicle: process.env.SCRAPPER_VEHICLE_INFO_URL ?? '',
     cookie: process.env.SCRAPPER_PERSON_COOKIE ?? '',

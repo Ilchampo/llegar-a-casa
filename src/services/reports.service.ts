@@ -17,7 +17,19 @@ export const getReportScrapper = async (
   const { licensePlate } = args;
 
   const response = await puppeteer
-    .launch({ headless: true })
+    .launch({
+      headless: true,
+      executablePath:
+        config.app.environment === 'production'
+          ? config.scrappers.launcher
+          : puppeteer.executablePath(),
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--single-process',
+        '--no-zygote',
+      ],
+    })
     .then(async (browser) => {
       const page = await browser.newPage();
       page.evaluateOnNewDocument(puppeteerScript);
