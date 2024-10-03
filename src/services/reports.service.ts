@@ -6,9 +6,10 @@ import { reportScrapData } from '../helpers/infoScrapper';
 import { puppeteerScript } from '../constants/scripts';
 
 import handleResponse from '../helpers/handleResponse';
+import stealth from 'puppeteer-extra-plugin-stealth';
 import handleError from '../helpers/handleError';
+import puppeteerExtra from 'puppeteer-extra';
 import status from '../constants/status';
-import puppeteer from 'puppeteer';
 import config from '../config';
 
 export const getReportScrapper = async (
@@ -16,15 +17,20 @@ export const getReportScrapper = async (
 ): Promise<IResponse<string>> => {
   const { licensePlate } = args;
 
-  const response = await puppeteer
-    .launch({ headless: true })
+  puppeteerExtra.use(stealth());
+
+  const response = await puppeteerExtra
+    .launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    })
     .then(async (browser) => {
       const page = await browser.newPage();
       page.evaluateOnNewDocument(puppeteerScript);
 
       // eslint-disable-next-line no-console
       console.log('config.scrappers.reports', config.scrappers.reports);
-      
+
       await page.goto(config.scrappers.reports, { waitUntil: 'networkidle2' });
 
       const pageContent = await page.content();
