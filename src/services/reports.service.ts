@@ -21,7 +21,15 @@ export const getReportScrapper = async (
     .then(async (browser) => {
       const page = await browser.newPage();
       page.evaluateOnNewDocument(puppeteerScript);
+
+      // eslint-disable-next-line no-console
+      console.log('config.scrappers.reports', config.scrappers.reports);
+      
       await page.goto(config.scrappers.reports, { waitUntil: 'networkidle2' });
+
+      const pageContent = await page.content();
+      // eslint-disable-next-line no-console
+      console.log('page.content', pageContent);
 
       await page.type('#pwd', licensePlate);
       await page.click('#btn_buscar_denuncia');
