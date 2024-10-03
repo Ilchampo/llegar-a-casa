@@ -19,10 +19,6 @@ export const getReportScrapper = async (
   const response = await puppeteer
     .launch({
       headless: true,
-      executablePath:
-        config.app.environment === 'production'
-          ? config.scrappers.launcher
-          : puppeteer.executablePath(),
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
