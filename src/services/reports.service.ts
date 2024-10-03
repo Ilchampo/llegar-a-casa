@@ -17,15 +17,7 @@ export const getReportScrapper = async (
   const { licensePlate } = args;
 
   const response = await puppeteer
-    .launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--single-process',
-        '--no-zygote',
-      ],
-    })
+    .launch({ headless: true })
     .then(async (browser) => {
       const page = await browser.newPage();
       page.evaluateOnNewDocument(puppeteerScript);
